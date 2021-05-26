@@ -1,23 +1,29 @@
-import javax.swing.InputMap;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Game {
 	
 	int columns = 7;
 	int rows = 6;
-	int[][] board = new int[columns][rows];
+	String empty = " ";
+	String[][] board = new String[columns][rows]{new String[]{}"| 1 | 2 | 3 | 4 | 5 | 6 | 7 |"
+										+ "|   |   |   |   |   |   |   |"
+										+ "|   |   |   |   |   |   |   |"
+										+ "|   |   |   |   |   |   |   |"
+										+ "|   |   |   |   |   |   |   |"
+										+ "|   |   |   |   |   |   |   |"
+										+ "|   |   |   |   |   |   |   |"};
 	int[] spalteFuellstand = new int[7];
 	int player = 1;
+	Map<Integer, String> playerSymbols = new HashMap<Integer, String>();
+	playerSymbols.put(1, "○");
+	playerSymbols.put(2, "●");
 	
-	private void printBoard() {
+	void printBoard() {
 		System.out.println("| 1 | 2 | 3 | 4 | 5 | 6 | 7 |");
-		System.out.println("|___|___|___|___|___|___|___|");
-		for (ZeilenCounter = 0; ZeilenCounter < Zeilen; ZeilenCounter++) { 
-			System.out.println("| | | | | | | |"); 
-			for ( SpaltenCounter = 0; 
-					SpaltenCounter < Spalten;
-					SpaltenCounter++) {
-				if (SpielFeld[ZeilenCounter][SpaltenCounter] == 0) {
-					System.out.print("| " + " " + " "); }
+		for (int row = 0, int column = 0; row < board[0].length - 2 && column < board.length; row++, column++) {
+			System.out.println(String.format("| %c | %c | %c | %c | %c | %c | %c |", board[column][row]));
+		}
 				// end of if else if (SpielFeld[ZeilenCounter][SpaltenCounter] == 1) { System.out.print("| " + "X" + " "); } 
 				// end of if-else else if (SpielFeld[ZeilenCounter][SpaltenCounter] == 2) { System.out.print("| " + "O" + " "); }
 				// end of if-else } // end of for System.out.print("|"); System.out.println(); System.out.println("|___|___|___|___|___|___|___|"); } 
@@ -32,7 +38,7 @@ public class Game {
 		if (SpielerEins == true) {
 			Object EingabeA = Input.readString("Spieler 1: Bitte Spaltennummer angeben: "); }
 		// end of if else { EingabeA = Input.readString("Spieler 2: Bitte Spaltennummer angeben: "); } 
-		// end of if-else // Pr�fen der Eingabe auf einen Wert zwischen 1 und 7 Spalte = Integer.parseInt(EingabeA); }
+		// end of if-else // Prüfen der Eingabe auf einen Wert zwischen 1 und 7 Spalte = Integer.parseInt(EingabeA); }
 		  "catch"(Exception ) ; {
 			//System.out.println("Bitte Zahl zwischen 1 und 7 eingeben"); }
 			if (Spalte < 1 || Spalte > 7) { 
