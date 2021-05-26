@@ -3,26 +3,22 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Game {
-	
-	int columns = 7;
-	int rows = 6;
-	String empty = " ";
-	String[][] board = new String[columns][rows]{"| 1 | 2 | 3 | 4 | 5 | 6 | 7 |"
-												+ null + null + null + null + null + null + null
-												+ null + null + null + null + null + null + null
-												+ null + null + null + null + null + null + null
-												+ null + null + null + null + null + null + null
-												+ null + null + null + null + null + null + null
-												+ null + null + null + null + null + null + null};
+
+	Board board = new Board();
 	int player = 1;
 	Map<Integer, String> playerSymbols = new HashMap<Integer, String>();
 	playerSymbols.put(1, "○");
 	playerSymbols.put(2, "●");
 	
+	public static void main(String[] args) {
+	}
+	
 	void printBoard() {
-		System.out.println("| 1 | 2 | 3 | 4 | 5 | 6 | 7 |");
-		for (int row = 1, column = 0; row < board[0].length - 2 && column < board.length; row++, column++) {
-			System.out.println(String.format("| %c | %c | %c | %c | %c | %c | %c |", board[column][row]));
+		for (int column; column < board.columns; column++) {
+			for (int row; row < board.rows; row++) {
+				System.out.print(board[column][row]);
+			}
+			System.out.println();
 		}
 		System.out.println();
 	}
@@ -64,7 +60,7 @@ public class Game {
 		return false;
 	}
 	
-	void Spielzug() {
+	/*void Spielzug() {
 				if (SpielerEins == true) {
 					SpielFeld[6 - spalteFuellstand[Spalte - 1]][Spalte - 1] = 1;}
 				boolean a;
@@ -88,5 +84,5 @@ public class Game {
 
 	private void Spielerwechsel() {
 		
-	}
+	}*/
 }
