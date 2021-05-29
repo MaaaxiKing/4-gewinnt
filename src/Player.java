@@ -1,13 +1,10 @@
-import java.util.Map;
-
 public class Player {
-
-	Map<Integer, String> symbolOfPlayer = Map.of(1, "○", 2, "●");
-	String symbol;
+	
+	char symbol;
 	int number;
 	
-	Player(int number) {
-		symbol = symbolOfPlayer.get(number);
+	Player(int number, char symbol) {
+		this.symbol = symbol;
 		this.number = number;
 	}
 }
