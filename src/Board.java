@@ -1,50 +1,39 @@
+import java.util.Arrays;
+
 public class Board {
 	
-	int rows = 6;
+	int playrows = 6;
+	int rows = playrows + 1;
 	int columns = 7;
 	String field = "| %c ";
 	String emptyField = String.format(field, ' ');
-	String[] columnNumberRow = new String[columns]; {for (int columnIndex=0; columnIndex < columns; columnIndex++) { columnNumberRow[columnIndex] = String.format(field, columnIndex);}};
-	String[][] playboard = new String[rows][columns]; {for (int rowIndex=0; rowIndex < rows; rowIndex++) { for (int columnIndex=0; columnIndex < columns; columnIndex++) { playboard[rowIndex][columnIndex] = emptyField;}}};
-	String[] board = new String[2]; {board[0] = columnNumberRow;}
-
+	String[] columnNumberRow = new String[columns]; {for (int columnIndex=0; columnIndex < columns; columnIndex++) { columnNumberRow[columnIndex] = String.format(field, (char)(columnIndex + '1'));}};
+	String[][] playboard = new String[playrows][columns]; {for (int rowIndex=0; rowIndex < playrows; rowIndex++) { for (int columnIndex=0; columnIndex < columns; columnIndex++) { playboard[rowIndex][columnIndex] = emptyField;}}};
+	String[][] board = new String[rows][columns]; {for (int rowIndex=0; rowIndex < rows; rowIndex++) { for (int columnIndex=0; columnIndex < columns; columnIndex++) { if (rowIndex == 0) {board[rowIndex][columnIndex] = columnNumberRow[columnIndex];} else { board[rowIndex][columnIndex] = playboard[rowIndex - 1][columnIndex];}}}};
+	
 	boolean isColumnFull(int columnIndex) {
-		int level = 0;
-		for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
-			if (playboard[rowIndex][columnIndex] != null) {
-				level++;
-				if (level == rows) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return getLevel(columnIndex) == playrows;
 	}
 
 	void print() {
-		for (int rowIndex=0, columnIndex=0; rowIndex < rows + 1 && columnIndex < columns; rowIndex++, columnIndex++) {
-			System.out.print(board[rowIndex][columnIndex]);
-			if (columnIndex == columns - 1) {
-				System.out.println();
-			}
-		}
+		System.out.println(Arrays.deepToString(board).replace(" [", "\n").replace(", ", "").replace(",", "").replace("[", "").replace("]", ""));
 	}
 
 	void place(int columnIndex, char symbol) {
-		playboard[getLevel(columnIndex)][columnIndex] = String.format(field, symbol);
+		playboard[playrows - 1 - getLevel(columnIndex)][columnIndex] = String.format(field, symbol);
+		updateBoard();
 	}
-
+	
 	private int getLevel(int columnIndex) {
-		for (int rowIndex = rows; rowIndex >= 0; rowIndex--) {
-			if (playboard[columnIndex][rowIndex] == emptyField) {
-				return rowIndex + rows;
-			}
+		int level = 0;
+		while (playboard[playrows - 1 - level][columnIndex] != emptyField) {
+			level++;
 		}
-		return rows;
+		return level;
 	}
 
 	boolean are4inALine() {
-		for (int rowIndex=0, columnIndex=0; rowIndex < rows && columnIndex < columns; rowIndex++, columnIndex++) {
+		for (int rowIndex=0, columnIndex=0; rowIndex < playrows && columnIndex < columns; rowIndex++, columnIndex++) {
 			if (playboard[rowIndex][columnIndex] != emptyField && (canCheckFromRow(rowIndex) && are4inAColumn(columnIndex, rowIndex) || canCheckFromColumn(columnIndex) && are4inARow(rowIndex, columnIndex) || are4inADiagonal())) {
 				return true;
 			}
