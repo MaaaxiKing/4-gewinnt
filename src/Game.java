@@ -3,20 +3,20 @@ import java.util.Scanner;
 public class Game {
 
 	Board board = new Board();
-	Player player1 = new Player(1, '○');
-	Player player2 = new Player(2, '●');
-	Player currentPlayer = player1;
+	public Player player1 = new Player(1, '○'), player2 = new Player(2, '●');
+	Player currentPlayer;
 	Scanner input = new Scanner(System.in);
 	
 	void play() {
 		while (!isWon()) {
+			switchPlayers();
 			board.print();
 			instruct(String.format("Spieler %d, bitte gib eine Spaltennummer ein.", currentPlayer.number));
 			int columnIndex = readColumnInput() - 1;
 			while (!isColumnValid(columnIndex)) {
 				if (columnIndex < 0) {
 					instruct("Achtung, die eingegebene Spaltennummer darf 1 nicht unterschreiten! Wähle eine andere Spalte!");
-				} else if (columnIndex >= board.columns) {
+				} else if (columnIndex >= board.COLUMNS) {
 					instruct("Achtung, die eingegebene Spaltennummer darf 7 nicht überschreiten! Wähle eine andere Spalte!");
 				} else if (board.isColumnFull(columnIndex)) {
 					instruct("Die Spalte ist voll! Wähle eine andere Spalte!");
@@ -24,11 +24,23 @@ public class Game {
 				columnIndex = readColumnInput() - 1;
 			}
 			board.place(columnIndex, currentPlayer.symbol);
-			if (!isWon()) {
-				switchPlayers();
-			}
 		}
+		board.print();
 		congratulate(currentPlayer);
+	}
+	
+	private boolean isWon() {
+		return board.are4inALine();
+	}
+	
+	private void switchPlayers() {
+		if (currentPlayer == player1) {
+			currentPlayer = player2;
+		} else if (currentPlayer == player2) {
+			currentPlayer = player1;
+		} else {
+			 currentPlayer = player1;
+		}
 	}
 	
 	private boolean isColumnValid(int columnIndex) {
@@ -39,7 +51,7 @@ public class Game {
 	}
 	
 	private boolean isColumnNumberValid(int columnIndex) {
-		return 0 <= columnIndex && columnIndex < board.columns;
+		return 0 <= columnIndex && columnIndex < board.COLUMNS;
 	}
 	
 	private int readColumnInput() {
@@ -57,22 +69,11 @@ public class Game {
 		return result;
 	}
 	
-	private void switchPlayers() {
-		switch (currentPlayer.number) {
-			case 1: currentPlayer = player2; break;
-			case 2: currentPlayer = player1;
-		}
-	}
-	
 	private void instruct(String instruction) {
 		System.out.println(instruction);
 	}
 	
-	private boolean isWon() {
-		return board.are4inALine();
-	}
-	
 	private void congratulate(Player player) {
-		System.out.println(String.format("Gewonnen hat Spieler %d.", currentPlayer.number));
+		System.out.println(String.format("Gewonnen hat Spieler %d.", player.number));
 	}
 }
