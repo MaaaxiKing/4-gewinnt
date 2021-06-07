@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Game {
 
 	Board board = new Board();
-	public Player player1 = new Player(1, '○'), player2 = new Player(2, '●');
+	Player player1 = new Player(1, '○'), player2 = new Player(2, '●');
 	Player currentPlayer;
 	Scanner input = new Scanner(System.in);
 	
