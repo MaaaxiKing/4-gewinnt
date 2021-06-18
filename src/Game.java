@@ -7,7 +7,7 @@ public class Game {
 	Scanner input = new Scanner(System.in);
 	
 	void play() {
-		while (!isWon()) {
+		while (!isWon() && !isDraw()) {
 			switchPlayers();
 			board.print();
 			instruct(String.format("Spieler %d, bitte gib eine Spaltennummer ein.", currentPlayer.number));
@@ -25,11 +25,24 @@ public class Game {
 			board.place(columnIndex, currentPlayer.symbol);
 		}
 		board.print();
-		congratulate(currentPlayer);
+		if (isWon()) {
+			congratulate(currentPlayer);
+		} else if (isDraw()) {
+			System.out.println("Unentschieden!");
+		}
 	}
 	
 	private boolean isWon() {
 		return board.are4inALine();
+	}
+	
+	private boolean isDraw() {
+		for (int columnIndex=0; columnIndex < board.COLUMNS; columnIndex++) {
+			if (isColumnValid(columnIndex)) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	private void switchPlayers() {
