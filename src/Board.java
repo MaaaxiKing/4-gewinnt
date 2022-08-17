@@ -10,15 +10,11 @@ public class Board {
 	String[][] playboard = new String[PLAYROWS][COLUMNS]; {for (int rowIndex=0; rowIndex < PLAYROWS; rowIndex++) { for (int columnIndex=0; columnIndex < COLUMNS; columnIndex++) { playboard[rowIndex][columnIndex] = EMPTY_FIELD;}}};
 	
 	boolean are4inALine() {
-		for (int rowIndex=0; rowIndex < PLAYROWS; rowIndex++) {
-			for (int columnIndex=0; columnIndex < COLUMNS; columnIndex++) {
-				if (!playboard[rowIndex][columnIndex].equals(EMPTY_FIELD)) {
-					if (isCheckableFromColumn(columnIndex) && are4inARow(rowIndex, columnIndex) || isCheckableFromRow(rowIndex) && are4inAColumn(columnIndex, rowIndex) || isCheckableFromColumn(columnIndex) && are4inADiagonal(rowIndex, columnIndex)) { //direkter Return schlecht, weil, wenn eine Reihe geprüft wird, und sie falsch ist, er die darunter ignoriert
+		for (int rowIndex=0; rowIndex < PLAYROWS; rowIndex++)
+			for (int columnIndex=0; columnIndex < COLUMNS; columnIndex++)
+				if (!playboard[rowIndex][columnIndex].equals(EMPTY_FIELD))
+					if (isCheckableFromColumn(columnIndex) && are4inARow(rowIndex, columnIndex) || isCheckableFromRow(rowIndex) && are4inAColumn(columnIndex, rowIndex) || isCheckableFromColumn(columnIndex) && are4inADiagonal(rowIndex, columnIndex)) //direkter Return schlecht, denn, wenn eine Reihe geprüft wird und sie ungültig ist, wird die darunter ignoriert
 						return true;
-					}
-				}
-			}
-		}
 		return false;
 	}
 
@@ -64,9 +60,8 @@ public class Board {
 	
 	private int getLevel(int columnIndex) {
 		int level = 0;
-		while (playboard[PLAYROWS - 1 - level][columnIndex] != EMPTY_FIELD) {
+		while (playboard[PLAYROWS - 1 - level][columnIndex] != EMPTY_FIELD)
 			level++;
-		}
 		return level;
 	}
 }
