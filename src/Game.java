@@ -13,23 +13,21 @@ public class Game {
 			instruct(String.format("Spieler %d, bitte gib eine Spaltennummer ein.", currentPlayer.number));
 			int columnIndex = readColumnInput() - 1;
 			while (!isColumnValid(columnIndex)) {
-				if (columnIndex < 0) {
-					instruct("Achtung, die eingegebene Spaltennummer darf 1 nicht unterschreiten! Wähle eine andere Spalte!");
-				} else if (columnIndex >= board.COLUMNS) {
-					instruct("Achtung, die eingegebene Spaltennummer darf 7 nicht überschreiten! Wähle eine andere Spalte!");
-				} else if (board.isColumnFull(columnIndex)) {
-					instruct("Die Spalte ist voll! Wähle eine andere Spalte!");
-				}
+				if (columnIndex < 0)
+					instruct("Achtung, die eingegebene Spaltennummer darf 1 nicht unterschreiten. Wähle eine andere Spalte!");
+				else if (columnIndex >= board.COLUMNS)
+					instruct("Achtung, die eingegebene Spaltennummer darf 7 nicht überschreiten. Wähle eine andere Spalte!");
+				else if (board.isColumnFull(columnIndex))
+					instruct("Die Spalte ist voll. Wähle eine andere Spalte!");
 				columnIndex = readColumnInput() - 1;
 			}
 			board.place(columnIndex, currentPlayer.symbol);
 		}
 		board.print();
-		if (isWon()) {
+		if (isWon())
 			congratulate(currentPlayer);
-		} else if (isDraw()) {
-			System.out.println("Unentschieden!");
-		}
+		else if (isDraw())
+			System.out.println("unentschieden");
 	}
 	
 	private boolean isWon() {
@@ -37,28 +35,24 @@ public class Game {
 	}
 	
 	private boolean isDraw() {
-		for (int columnIndex=0; columnIndex < board.COLUMNS; columnIndex++) {
-			if (isColumnValid(columnIndex)) {
+		for (int columnIndex=0; columnIndex < board.COLUMNS; columnIndex++)
+			if (isColumnValid(columnIndex))
 				return false;
-			}
-		}
 		return true;
 	}
 	
 	private void switchPlayers() {
-		if (currentPlayer == player1) {
+		if (currentPlayer == player1)
 			currentPlayer = player2;
-		} else if (currentPlayer == player2) {
+		else if (currentPlayer == player2)
 			currentPlayer = player1;
-		} else {
+		else
 			 currentPlayer = player1;
-		}
 	}
 	
 	private boolean isColumnValid(int columnIndex) {
-		if (isColumnNumberValid(columnIndex)) {
+		if (isColumnNumberValid(columnIndex))
 			return !board.isColumnFull(columnIndex);
-		}
 		return false;
 	}
 	
@@ -69,15 +63,15 @@ public class Game {
 	private int readColumnInput() {
 		boolean readOK = false;
 		int result = 0;
-		do {
+		do
 			try {
 				result = input.nextInt();
 				readOK = true;
 			} catch(Exception e) {
-				System.out.println("ungültig!");
+				System.out.println("ungültig");
 				instruct("Bitte gib etwas anderes ein!");
 			}
-		} while(!readOK);
+		while(!readOK);
 		return result;
 	}
 	
@@ -86,6 +80,6 @@ public class Game {
 	}
 	
 	private void congratulate(Player player) {
-		System.out.println(String.format("Gewonnen hat Spieler %d.", player.number));
+		System.out.println(String.format("Spieler %d hat gewonnen.", player.number));
 	}
 }
